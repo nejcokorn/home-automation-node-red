@@ -1,0 +1,84 @@
+<script type="text/javascript">
+	RED.nodes.registerType('ha-set-port', {
+		category: 'home-automation',
+		color: '#CDD5AE',
+		defaults: {
+			name: {
+				value: ""
+			},
+			agent: {
+				type: "ha-agent",
+				required: true
+			},
+			deviceId: {
+				validate: RED.validators.number(),
+				required: true
+			},
+			actionPort: {
+				validate: RED.validators.number(),
+				required: true
+			},
+			actionType: {
+				required: true
+			},
+			actionDelay: {
+				validate: RED.validators.number(),
+				value: 0
+			},
+		},
+		inputs: 1,
+		outputs: 1,
+		outputLabels: ['port'],
+		icon: "font-awesome/fa-sign-out",
+		align: 'right',
+		oneditprepare: function() {
+		},
+		label: function() {
+			return this.name;
+		}
+	});
+</script>
+
+<script type="text/html" data-template-name="ha-set-port">
+	<div class="form-row">
+		<label for="node-input-name">
+			<i class="fa fa-tag"></i>
+			Name
+		</label>
+		<input type="text" id="node-input-name" class="offset-md-2">
+	</div>
+	<hr />
+	<h3>Home Automation Device</h3>
+	<div class="form-row">
+		<label for="node-input-agent">Agent</label>
+		<input type="text" id="node-input-agent">
+	</div>
+	<div class="form-row">
+		<label for="node-input-deviceId">Device ID</label>
+		<input type="text" id="node-input-deviceId">
+	</div>
+	<h3>Action</h3>
+	<div class="form-row">
+		<label for="node-input-actionPort">Output port</label>
+		<input type="text" id="node-input-actionPort">
+		<br />
+		<small id="node-help-actionPort">Enter the device port number (0-15).</small>
+	</div>
+	<div class="form-row">
+		<label for="node-input-actionType">Type</label>
+		<select id="node-input-actionType">
+			<option disabled value="">Choose...</option>
+			<option value="toggle">toggle</option>
+			<option value="high">high</option>
+			<option value="low">low</option>
+		</select>
+		<br />
+		<small id="node-help-actionType">Change the output port state to low, high, or toggle (invert the current value).</small>
+	</div>
+	<div class="form-row">
+		<label for="node-input-actionDelay">Delay</label>
+		<input type="text" id="node-input-actionDelay">
+		<br />
+		<small id="node-help-actionDelay">In miliseconds, 0 = no delay</small>
+	</div>
+</script>

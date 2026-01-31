@@ -1,0 +1,44 @@
+<script type="text/javascript">
+	RED.nodes.registerType('ha-agent', {
+		category: 'config',
+		color: '#D3A373',
+				// #D3A373
+				// #CDD5AE
+				// #E9EDCA
+				// #FEFADF
+				// #FAEDCD
+		defaults: {
+			url: {
+				required: true,
+				value: ""
+			},
+			canbus: {
+				required: true,
+				value: ""
+			}
+		},
+		oneditprepare: function() {
+		},
+		label: function() {
+			return `${this.url} - ${this.canbus}`;
+		}
+	});
+</script>
+
+<script type="text/html" data-template-name="ha-agent">
+	<h3>Home Automation Agent</h3>
+	<div class="form-row">
+		<label for="node-config-input-url">URL</label>
+		<input type="text" id="node-config-input-url" placeholder="http(s)://localhost:3200">
+	</div>
+	<div class="form-row">
+		<label for="node-config-input-canbus">CAN Bus</label>
+		<select id="node-config-input-canbus">
+			<option disabled value="">Choose...</option>
+			<option value="can0">can0</option>
+			<option value="can1">can1</option>
+			<option value="can2">can2</option>
+			<option value="can3">can3</option>
+		</select>
+	</div>
+</script>

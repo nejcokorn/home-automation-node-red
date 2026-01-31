@@ -1,0 +1,45 @@
+<script type="text/javascript">
+	RED.nodes.registerType('ha-discover', {
+		category: 'home-automation',
+		color: '#FAEDCD',
+				// #D3A373
+				// #CDD5AE
+				// #E9EDCA
+				// #FEFADF
+				// #FAEDCD
+		defaults: {
+			name: {
+				value: ""
+			},
+			agent: {
+				type: "ha-agent",
+				required: true
+			}
+		},
+		inputs: 1,
+		outputs: 1,
+		outputLabels: ['Discover'],
+		icon: "font-awesome/fa-search",
+		oneditprepare: function() {
+		},
+		label: function() {
+			return this.name;
+		}
+	});
+</script>
+
+<script type="text/html" data-template-name="ha-discover">
+	<div class="form-row">
+		<label for="node-input-name">
+			<i class="fa fa-tag"></i>
+			Name
+		</label>
+		<input type="text" id="node-input-name" class="offset-md-2">
+	</div>
+	<hr />
+	<h3>Home Automation Agent</h3>
+	<div class="form-row">
+		<label for="node-input-agent">Agent</label>
+		<input type="text" id="node-input-agent">
+	</div>
+</script>

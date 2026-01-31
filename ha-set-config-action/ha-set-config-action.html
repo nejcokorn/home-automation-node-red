@@ -1,0 +1,213 @@
+<script type="text/javascript">
+	RED.nodes.registerType('ha-set-config-action', {
+		category: 'home-automation',
+		color: '#CDD5AE',
+		defaults: {
+			name: {
+				value: ""
+			},
+			actionTrigger: {
+				required: true,
+			},
+			actionMode: {
+				required: true,
+			},
+			actionType: {
+				required: true,
+			},
+			actionLongpress: {
+				required: false,
+				value: ''
+			},
+			actionSkipWhenDelayDeviceId: {
+				value: ''
+			},
+			actionSkipWhenDelayPorts: {
+				value: []
+			},
+			actionClearDelayDeviceId: {
+				value: ''
+			},
+			actionClearDelayPorts: {
+				value: []
+			},
+			actionDeviceId: {
+				value: ''
+			},
+			actionPorts: {
+				value: []
+			},
+			actionDelay: {
+				value: 0
+			},
+
+		},
+		inputs: 1,
+		outputs: 1,
+		outputLabels: ['port'],
+		icon: "font-awesome/fa-sign-out",
+		align: 'right',
+		oneditprepare: function() {
+			let toggleActionLongpress = () => {
+				if ($("#node-input-actionMode").val() === "longpress") {
+					$("#node-input-actionLongpress").prop("disabled", false);
+				} else {
+					$("#node-input-actionLongpress").prop("disabled", true);
+					$("#node-input-actionLongpress").val("");
+				}
+			}
+			// Set listener
+			$("#node-input-actionMode").on("change", toggleActionLongpress);
+			// initial state
+			toggleActionLongpress();
+
+			for (let i = 0; i < 16; i++) {
+				let selected = this.actionSkipWhenDelayPorts?.includes(i) ? "selected" : "";
+				$("#node-actionSkipWhenDelayPorts").append(`<button type="button" class="red-ui-button toggle ${selected}" data-port="${i}">${i}</button>`);
+				selected = this.actionClearDelayPorts?.includes(i) ? "selected" : "";
+				$("#node-actionClearDelayPorts").append(`<button type="button" class="red-ui-button toggle ${selected}" data-port="${i}">${i}</button>`);
+				selected = this.actionPorts?.includes(i) ? "selected" : "";
+				$("#node-actionPorts").append(`<button type="button" class="red-ui-button toggle ${selected}" data-port="${i}">${i}</button>`);
+			}
+
+			$(".button-group-ports button").on("click", function() {
+				if ($(this).hasClass("selected")) {
+					$(this).removeClass("selected");
+				} else {
+					$(this).addClass("selected");
+				}
+			})
+		},
+		oneditsave: function() {
+			this.actionSkipWhenDelayPorts = [];
+			this.actionClearDelayPorts = [];
+			this.actionPorts = [];
+			$("#node-actionSkipWhenDelayPorts button.selected").each((idx, elem) => {
+				this.actionSkipWhenDelayPorts.push(Number(elem.dataset.port));
+			})
+			$("#node-actionClearDelayPorts button.selected").each((idx, elem) => {
+				this.actionClearDelayPorts.push(Number(elem.dataset.port));
+			})
+			$("#node-actionPorts button.selected").each((idx, elem) => {
+				this.actionPorts.push(Number(elem.dataset.port));
+			})
+
+			$("#node-input-actionSkipWhenDelayPorts").val(this.actionSkipWhenDelayPorts);
+			$("#node-input-actionClearDelayPorts").val(this.actionClearDelayPorts);
+			$("#node-input-actionPorts").val(this.actionPorts);
+		},
+		label: function() {
+			return this.name;
+		}
+	});
+</script>
+<style>
+	.button-group-ports button{
+		width: 36px;
+	}
+	button.red-ui-button.toggle:not(.single).selected:not(.disabled):not(:disabled) {
+		cursor: pointer;
+	}
+</style>
+<script type="text/html" data-template-name="ha-set-config-action">
+	<div class="form-row">
+		<label for="node-input-name">
+			<i class="fa fa-tag"></i>
+			Name
+		</label>
+		<input type="text" id="node-input-name" class="offset-md-2">
+	</div>
+	<hr />
+	<h3>Trigger conditions</h3>
+	<div class="form-row">
+		<label for="node-input-actionTrigger">Trigger</label>
+		<select id="node-input-actionTrigger">
+			<option disabled value="">Select...</option>
+			<option value="disabled">Disabled</option>
+			<option value="rising">Rising edge</option>
+			<option value="falling">Falling edge</option>
+		</select>
+		<br />
+		<small id="node-help-actionTrigger">Select which signal edge triggers the action.</small>
+	</div>
+	<div class="form-row">
+		<label for="node-input-actionMode">Mode</label>
+		<select id="node-input-actionMode">
+			<option disabled value="">Select...</option>
+			<option value="click">Click</option>
+			<option value="doubleclick">Double Click</option>
+			<option value="longpress">Long press</option>
+		</select> 
+		<br />
+		<small id="node-help-actionMode">Select the interaction type required to trigger the action.</small>
+	</div>
+	<div class="form-row">
+		<label for="node-input-actionLongpress">Long press</label>
+		<input type="text" id="node-input-actionLongpress">
+		<br />
+		<small id="node-help-actionLongpress">Specifies how long the button must be held (in milliseconds) to trigger the action.</small>
+		<br />
+		<small id="node-help-actionLongpress">Only relevant when <strong>Mode</strong> is set to <strong>Long press</strong>.</small>
+	</div>
+	<p>
+		<strong>Skip action when an active delay exists</strong>
+	</p>
+	<div class="form-row">
+		<label for="node-input-actionSkipWhenDelayDeviceId">Device ID</label>
+		<input type="text" id="node-input-actionSkipWhenDelayDeviceId">
+		<br />
+		<small id="node-help-actionSkipWhenDelayDeviceId">Device to check for active delays before executing this action.</small>
+	</div>
+	<div class="form-row">
+		<label for="node-actionSkipWhenDelayPorts">Ports</label>
+		<input type="hidden" id="node-input-actionSkipWhenDelayPorts">
+		<span id="node-actionSkipWhenDelayPorts" class="button-group button-group-ports"></span>
+		<br />
+		<small id="node-help-actionSkipWhenDelayPorts">If any of the selected ports currently have an active delay, the action will be skipped.</small>
+	</div>
+	<hr />
+	<h3>Clear delays</h3>
+	<div class="form-row">
+		<label for="node-input-actionClearDelayDeviceId">Device ID</label>
+		<input type="text" id="node-input-actionClearDelayDeviceId">
+		<br />
+		<small id="node-help-actionClearDelayDeviceId">Device on which delays should be cleared before executing the action.</small>
+	</div>
+	<div class="form-row">
+		<label for="node-actionClearDelayPorts">Ports</label>
+		<input type="hidden" id="node-input-actionClearDelayPorts">
+		<span id="node-actionClearDelayPorts" class="button-group button-group-ports"></span>
+		<br />
+		<small id="node-help-actionClearDelayPorts">Selected ports will have their active delays cleared before the action is executed.</small>
+	</div>
+	<hr />
+	<h3>Execute action</h3>
+	<div class="form-row">
+		<label for="node-input-actionDeviceId">Device ID</label>
+		<input type="text" id="node-input-actionDeviceId">
+	</div>
+	<div class="form-row">
+		<label for="node-input-actionType">Type</label>
+		<select id="node-input-actionType">
+			<option disabled value="">Select...</option>
+			<option value="toggle">Toggle</option>
+			<option value="high">High</option>
+			<option value="low">Low</option>
+		</select>
+		<br />
+		<small id="node-help-actionType">Set the output port state to <strong>low</strong>, <strong>high</strong>, or <strong>toggle</strong> (inverts the current state).</small>
+	</div>
+	<div class="form-row">
+		<label for="node-actionPorts">Ports</label>
+		<input type="hidden" id="node-input-actionPorts">
+		<span id="node-actionPorts" class="button-group button-group-ports"></span>
+		<br />
+		<small id="node-help-actionPorts">The action will be applied to the selected output ports.</small>
+	</div>
+	<div class="form-row">
+		<label for="node-input-actionDelay">Delay</label>
+		<input type="text" id="node-input-actionDelay">
+		<br />
+		<small id="node-help-actionDelay">Delay before executing the action, in milliseconds. Set to 0 for no delay.</small>
+	</div>
+</script>

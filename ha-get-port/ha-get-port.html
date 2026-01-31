@@ -1,0 +1,69 @@
+<script type="text/javascript">
+	RED.nodes.registerType('ha-get-port', {
+		category: 'home-automation',
+		color: '#CDD5AE',
+		defaults: {
+			name: {
+				value: ""
+			},
+			agent: {
+				type: "ha-agent",
+				required: true
+			},
+			deviceId: {
+				required: true
+			},
+			direction: {
+				required: true
+			},
+			port: {
+				required: true
+			}
+		},
+		inputs: 1,
+		outputs: 1,
+		outputLabels: ['port'],
+		icon: "font-awesome/fa-sign-in",
+		oneditprepare: function() {
+		},
+		label: function() {
+			return this.name;
+		}
+	});
+</script>
+
+<script type="text/html" data-template-name="ha-get-port">
+	<div class="form-row">
+		<label for="node-input-name">
+			<i class="fa fa-tag"></i>
+			Name
+		</label>
+		<input type="text" id="node-input-name" class="offset-md-2">
+	</div>
+	<hr />
+	<h3>Home Automation Device</h3>
+	<div class="form-row">
+		<label for="node-input-agent">Agent</label>
+		<input type="text" id="node-input-agent">
+	</div>
+	<div class="form-row">
+		<label for="node-input-deviceId">Device ID</label>
+		<input type="text" id="node-input-deviceId">
+	</div>
+	<div class="form-row">
+		<label for="node-input-direction">Direction</label>
+		<select id="node-input-direction">
+			<option disabled value="">Choose...</option>
+			<option value="input">input</option>
+			<option value="output">output</option>
+		</select>
+		<br />
+		<small id="node-help-direction">Select the device port information you want to obtain.</small>
+	</div>
+	<div class="form-row">
+		<label for="node-input-port">Port</label>
+		<input type="text" id="node-input-port">
+		<br />
+		<small id="node-help-port">Enter the device port number; Output ports (0-15), Input ports (0-11).</small>
+	</div>
+</script>

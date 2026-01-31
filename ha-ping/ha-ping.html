@@ -1,0 +1,53 @@
+<script type="text/javascript">
+	RED.nodes.registerType('ha-ping', {
+		category: 'home-automation',
+		color: '#FAEDCD',
+				// #D3A373
+				// #CDD5AE
+				// #E9EDCA
+				// #FEFADF
+				// #FAEDCD
+		defaults: {
+			name: {
+				value: ""
+			},
+			agent: {
+				type: "ha-agent",
+				required: true
+			},
+			deviceId: {
+				validate: RED.validators.number(),
+				required: true
+			}
+		},
+		inputs: 1,
+		outputs: 1,
+		outputLabels: ['Ping'],
+		icon: "font-awesome/fa-heartbeat",
+		oneditprepare: function() {
+		},
+		label: function() {
+			return this.name;
+		}
+	});
+</script>
+
+<script type="text/html" data-template-name="ha-ping">
+	<div class="form-row">
+		<label for="node-input-name">
+			<i class="fa fa-tag"></i>
+			Name
+		</label>
+		<input type="text" id="node-input-name" class="offset-md-2">
+	</div>
+	<hr />
+	<h3>Home Automation Device</h3>
+	<div class="form-row">
+		<label for="node-input-agent">Agent</label>
+		<input type="text" id="node-input-agent">
+	</div>
+	<div class="form-row">
+		<label for="node-input-deviceId">Device ID</label>
+		<input type="text" id="node-input-deviceId">
+	</div>
+</script>
