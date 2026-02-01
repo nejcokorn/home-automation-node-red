@@ -70,7 +70,7 @@
 			// initial state
 			toggleActionLongpress();
 
-			for (let i = 0; i < 16; i++) {
+			for (let i = 0; i < 12; i++) {
 				let selected = this.actionSkipWhenDelayPorts?.includes(i) ? "selected" : "";
 				$("#node-actionSkipWhenDelayPorts").append(`<button type="button" class="red-ui-button toggle ${selected}" data-port="${i}">${i}</button>`);
 				selected = this.actionClearDelayPorts?.includes(i) ? "selected" : "";
