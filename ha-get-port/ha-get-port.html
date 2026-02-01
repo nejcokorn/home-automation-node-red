@@ -55,7 +55,7 @@
 	</div>
 	<div class="form-row">
 		<label for="node-input-deviceId">Device ID</label>
-		<input type="text" id="node-input-deviceId">
+		<input type="number" min="0" max="239" id="node-input-deviceId">
 		<br />
 		<small id="node-help-deviceId">Enter the target device to send this action to.</small>
 	</div>
@@ -71,7 +71,7 @@
 	</div>
 	<div class="form-row">
 		<label for="node-input-port">Port</label>
-		<input type="text" id="node-input-port">
+		<input type="number" min="0" max="239" id="node-input-port">
 		<br />
 		<small id="node-help-port">Enter the device port number; Output ports (0-15), Input ports (0-11).</small>
 	</div>

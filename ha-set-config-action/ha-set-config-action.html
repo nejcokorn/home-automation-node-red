@@ -152,7 +152,7 @@
 	</div>
 	<div class="form-row">
 		<label for="node-input-actionLongpress">Long press</label>
-		<input type="text" id="node-input-actionLongpress">
+		<input type="number" min="0" id="node-input-actionLongpress">
 		<br />
 		<small id="node-help-actionLongpress">Specifies how long the button must be held (in milliseconds) to trigger the action.</small>
 		<br />
@@ -176,7 +176,7 @@
 	</p>
 	<div class="form-row">
 		<label for="node-input-actionSkipWhenDelayDeviceId">Device ID</label>
-		<input type="text" id="node-input-actionSkipWhenDelayDeviceId">
+		<input type="number" min="0" max="239" id="node-input-actionSkipWhenDelayDeviceId">
 		<br />
 		<small id="node-help-actionSkipWhenDelayDeviceId">Device to check for active delays before executing this action.</small>
 	</div>
@@ -191,7 +191,7 @@
 	<h3>Clear delays</h3>
 	<div class="form-row">
 		<label for="node-input-actionClearDelayDeviceId">Device ID</label>
-		<input type="text" id="node-input-actionClearDelayDeviceId">
+		<input type="number" min="0" max="239" id="node-input-actionClearDelayDeviceId">
 		<br />
 		<small id="node-help-actionClearDelayDeviceId">Device on which delays should be cleared before executing the action.</small>
 	</div>
@@ -206,7 +206,7 @@
 	<h3>Execute action</h3>
 	<div class="form-row">
 		<label for="node-input-actionDeviceId">Device ID</label>
-		<input type="text" id="node-input-actionDeviceId">
+		<input type="number" min="0" max="239" id="node-input-actionDeviceId">
 		<br />
 		<small id="node-help-actionDeviceId">Device on which actions should be executed.</small>
 	</div>
@@ -230,7 +230,7 @@
 	</div>
 	<div class="form-row">
 		<label for="node-input-actionDelay">Delay</label>
-		<input type="text" id="node-input-actionDelay">
+		<input type="number" min="0" id="node-input-actionDelay">
 		<br />
 		<small id="node-help-actionDelay">Delay before executing the action, in milliseconds. Set to 0 for no delay.</small>
 	</div>

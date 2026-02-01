@@ -62,14 +62,14 @@
 	</div>
 	<div class="form-row">
 		<label for="node-input-deviceId">Device ID</label>
-		<input type="text" id="node-input-deviceId">
+		<input type="number" min="0" max="239" id="node-input-deviceId">
 		<br />
 		<small id="node-help-deviceId">Enter the target device to send this action to.</small>
 	</div>
 	<h3>Action</h3>
 	<div class="form-row">
 		<label for="node-input-actionPort">Output port</label>
-		<input type="text" id="node-input-actionPort">
+		<input type="number" min="0" max="11" id="node-input-actionPort">
 		<br />
 		<small id="node-help-actionPort">Enter the device port number (0-15).</small>
 	</div>
@@ -86,7 +86,7 @@
 	</div>
 	<div class="form-row">
 		<label for="node-input-actionDelay">Delay</label>
-		<input type="text" id="node-input-actionDelay">
+		<input type="number" min="0" id="node-input-actionDelay">
 		<br />
 		<small id="node-help-actionDelay">In miliseconds, 0 = no delay</small>
 	</div>
