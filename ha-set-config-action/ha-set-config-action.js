@@ -1,7 +1,6 @@
 module.exports = function(RED) {
 	function SetConfigAction(config) {
 		RED.nodes.createNode(this, config);
-		console.log(config);
 		
 		this.actionTrigger = config.actionTrigger;
 		this.actionMode = config.actionMode;
