@@ -111,8 +111,15 @@
 	});
 </script>
 <style>
-	.button-group-ports button{
+	.button-group-ports {
+		white-space: nowrap;
+	}
+	.form-row-ports {
+		min-width: 690px;
+	}
+	.button-group-ports button {
 		width: 36px;
+		height: 36px;
 	}
 	button.red-ui-button.toggle:not(.single).selected:not(.disabled):not(:disabled) {
 		cursor: pointer;
@@ -180,7 +187,7 @@
 		<br />
 		<small id="node-help-actionSkipWhenDelayDeviceId">Device to check for active delays before executing this action.</small>
 	</div>
-	<div class="form-row">
+	<div class="form-row form-row-ports">
 		<label for="node-actionSkipWhenDelayPorts">Ports</label>
 		<input type="hidden" id="node-input-actionSkipWhenDelayPorts">
 		<span id="node-actionSkipWhenDelayPorts" class="button-group button-group-ports"></span>
@@ -195,7 +202,7 @@
 		<br />
 		<small id="node-help-actionClearDelayDeviceId">Device on which delays should be cleared before executing the action.</small>
 	</div>
-	<div class="form-row">
+	<div class="form-row form-row-ports">
 		<label for="node-actionClearDelayPorts">Ports</label>
 		<input type="hidden" id="node-input-actionClearDelayPorts">
 		<span id="node-actionClearDelayPorts" class="button-group button-group-ports"></span>
@@ -221,7 +228,7 @@
 		<br />
 		<small id="node-help-actionType">Set the output port state to <strong>low</strong>, <strong>high</strong>, or <strong>toggle</strong> (inverts the current state).</small>
 	</div>
-	<div class="form-row">
+	<div class="form-row form-row-ports">
 		<label for="node-actionPorts">Ports</label>
 		<input type="hidden" id="node-input-actionPorts">
 		<span id="node-actionPorts" class="button-group button-group-ports"></span>
