@@ -1,0 +1,59 @@
+<script type="text/javascript">
+	RED.nodes.registerType('ha-list-delays', {
+		category: 'home-automation',
+		color: '#F2CEAE',
+				// #595336
+				// #D99B66
+				// #F2CEAE
+				// #BF9075
+				// #F2E0D5
+		defaults: {
+			name: {
+				value: ""
+			},
+			agent: {
+				type: "ha-agent",
+				required: true
+			},
+			deviceId: {
+				required: true
+			}
+		},
+		inputs: 1,
+		outputs: 1,
+		outputLabels: ['port'],
+		icon: "font-awesome/fa-list-ul",
+		oneditprepare: function() {
+		},
+		label: function() {
+			return this.name;
+		}
+	});
+</script>
+
+<script type="text/html" data-template-name="ha-list-delays">
+	<div class="form-row">
+		<label for="node-input-name">
+			<i class="fa fa-tag"></i>
+			Name
+		</label>
+		<input type="text" id="node-input-name" class="offset-md-2">
+	</div>
+	<hr />
+	<h3>Home Automation Device</h3>
+	<div class="form-row">
+		<label for="node-input-agent">Agent</label>
+		<input type="text" id="node-input-agent">
+		<br />
+		<small id="node-help-agent">Select the Home Automation agent configuration to use for the request.</small>
+	</div>
+	<div class="form-row">
+		<label for="node-input-deviceId">Device ID</label>
+		<input type="text" id="node-input-deviceId">
+		<br />
+		<small id="node-help-deviceId">Enter the target device to send this action to.</small>
+	</div>
+</script>
+
+<script type="text/html" data-help-name="ha-list-delays">
+</script>
