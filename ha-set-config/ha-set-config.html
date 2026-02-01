@@ -74,23 +74,37 @@
 		<br />
 		<small id="node-help-deviceId">Enter the target device to send this configuration to.</small>
 	</div>
+	<hr />
+	<h3>Input settings</h3>
+	<div class="form-row">
+		<label for="node-input-inputPort">Input Port</label>
+		<input type="number" min="0" id="node-input-inputPort">
+		<br />
+		<small id="node-help-inputPort">If any actions rely on double-click mode, set the timeout (in microseconds).</small>
+	</div>
+	<div class="form-row">
+		<label for="node-input-debounce">Debounce</label>
+		<input type="number" min="0" id="node-input-debounce">
+		<br />
+		<small id="node-help-debounce">If any actions rely on double-click mode, set the timeout (in microseconds).</small>
+	</div>
 	<div class="form-row">
 		<label for="node-input-doubleclick">Double click</label>
-		<input type="number" min="0" max="239" id="node-input-doubleclick">
+		<input type="number" min="0" id="node-input-doubleclick">
 		<br />
 		<small id="node-help-doubleclick">If any actions rely on double-click mode, set the timeout (in milliseconds).</small>
 	</div>
 	<hr />
-	<h3>Input execute conditions</h3>
+	<h3>Execute conditions</h3>
 	<div class="form-row">
-		<label for="node-input-bypassInstantly">Execute instantly</label>
+		<label for="node-input-bypassInstantly">Instantly</label>
 		<select id="node-input-bypassInstantly">
 			<option disabled value="">Select...</option>
 			<option value="1">True</option>
 			<option value="0">False</option>
 		</select>
 		<br />
-		<small id="node-help-bypassInstantly">Execute actions stored on this input immediately.</small>
+		<small id="node-help-bypassInstantly">Execute actions linked to this input immediately.</small>
 	</div>
 	<div class="form-row">
 		<label for="node-input-bypassOnDisconnect">On disconnect</label>
@@ -100,7 +114,7 @@
 			<option value="0">False</option>
 		</select>
 		<br />
-		<small id="node-help-bypassOnDisconnect">Execute actions stored on this input when disconnected from the master.</small>
+		<small id="node-help-bypassOnDisconnect">Execute actions linked to this input when disconnected from the master.</small>
 	</div>
 </script>
 
