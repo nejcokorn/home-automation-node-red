@@ -7,6 +7,7 @@ module.exports = function(RED) {
 		this.actionMode = config.actionMode;
 		this.actionType = config.actionType;
 		this.actionLongpress = config.actionLongpress;
+		this.actionConfigSwitch = config.actionConfigSwitch;
 
 		this.actionSkipWhenDelayDeviceId = config.actionSkipWhenDelayDeviceId;
 		this.actionSkipWhenDelayPorts = config.actionSkipWhenDelayPorts;
@@ -27,6 +28,7 @@ module.exports = function(RED) {
 				"mode": this.actionMode,
 				"type": this.actionType,
 				"longpress": this.actionLongpress && !Number.isNaN(Number(this.actionLongpress)) ? Number(this.actionLongpress) : 0,
+				"configSwitch": this.actionConfigSwitch && !Number.isNaN(Number(this.actionConfigSwitch)) ? Number(this.actionConfigSwitch) : 0,
 				"output": {
 					"skipWhenDelayDeviceId": this.actionSkipWhenDelayDeviceId && !Number.isNaN(Number(this.actionSkipWhenDelayDeviceId)) ? Number(this.actionSkipWhenDelayDeviceId) : null,
 					"skipWhenDelayPorts": this.actionSkipWhenDelayPorts ? this.actionSkipWhenDelayPorts : [],
