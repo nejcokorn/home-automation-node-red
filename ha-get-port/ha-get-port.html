@@ -45,10 +45,14 @@
 	<div class="form-row">
 		<label for="node-input-agent">Agent</label>
 		<input type="text" id="node-input-agent">
+		<br />
+		<small id="node-help-agent">Select the Home Automation agent configuration to use for the request.</small>
 	</div>
 	<div class="form-row">
 		<label for="node-input-deviceId">Device ID</label>
 		<input type="text" id="node-input-deviceId">
+		<br />
+		<small id="node-help-deviceId">Enter the target device to send this action to.</small>
 	</div>
 	<div class="form-row">
 		<label for="node-input-direction">Direction</label>
@@ -66,4 +70,20 @@
 		<br />
 		<small id="node-help-port">Enter the device port number; Output ports (0-15), Input ports (0-11).</small>
 	</div>
+</script>
+
+<script type="text/html" data-help-name="ha-get-port">
+	<p>Reads the current value of a device digital port via the selected Home Automation agent.</p>
+	<h3>Inputs</h3>
+	<dl class="message-properties">
+		<dt>msg</dt>
+		<dd>Any input message triggers a read.</dd>
+	</dl>
+	<h3>Outputs</h3>
+	<dl class="message-properties">
+		<dt>payload</dt>
+		<dd>Port value returned by the agent.</dd>
+	</dl>
+	<h3>Details</h3>
+	<p>Configure the Device ID, direction (input or output), and port number. Output ports: 0-15, Input ports: 0-11.</p>
 </script>

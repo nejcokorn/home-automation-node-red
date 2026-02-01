@@ -30,6 +30,8 @@
 	<div class="form-row">
 		<label for="node-config-input-url">URL</label>
 		<input type="text" id="node-config-input-url" placeholder="http(s)://localhost:3200">
+		<br />
+		<small id="node-help-url">Base URL for the Home Automation agent API.</small>
 	</div>
 	<div class="form-row">
 		<label for="node-config-input-canbus">CAN Bus</label>
@@ -40,5 +42,13 @@
 			<option value="can2">can2</option>
 			<option value="can3">can3</option>
 		</select>
+		<br />
+		<small id="node-help-canbus">Select which CAN interface the agent should use.</small>
 	</div>
+</script>
+
+<script type="text/html" data-help-name="ha-agent">
+	<p>Configures the Home Automation agent connection used by other nodes.</p>
+	<h3>Details</h3>
+	<p>Set the agent base URL and the CAN bus interface to target (for example, <strong>can0</strong>).</p>
 </script>
