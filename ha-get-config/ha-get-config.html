@@ -1,0 +1,73 @@
+<script type="text/javascript">
+	RED.nodes.registerType('ha-get-config', {
+		category: 'home-automation',
+		color: '#D99B66',
+				// #595336
+				// #D99B66
+				// #F2CEAE
+				// #BF9075
+				// #F2E0D5
+		defaults: {
+			name: {
+				value: ""
+			},
+			agent: {
+				type: "ha-agent",
+				required: true
+			},
+			deviceId: {
+				required: true
+			},
+			inputPort: {
+				required: true
+			}
+		},
+		inputs: 1,
+		outputs: 1,
+		outputLabels: ['config'],
+		icon: "font-awesome/fa-cog",
+		oneditprepare: function() {
+		},
+		label: function() {
+			return this.name;
+		}
+	});
+</script>
+
+<script type="text/html" data-template-name="ha-get-config">
+	<div class="form-row">
+		<label for="node-input-name">
+			<i class="fa fa-tag"></i>
+			Name
+		</label>
+		<input type="text" id="node-input-name" class="offset-md-2">
+	</div>
+	<hr />
+	<h3>Home Automation Device</h3>
+	<div class="form-row">
+		<label for="node-input-agent">Agent</label>
+		<input type="text" id="node-input-agent">
+		<br />
+		<small id="node-help-agent">Select the Home Automation agent configuration to use for the request.</small>
+	</div>
+	<div class="form-row">
+		<label for="node-input-deviceId">Device ID</label>
+		<input type="number" min="0" max="239" id="node-input-deviceId">
+		<br />
+		<small id="node-help-deviceId">Enter the target device to send this configuration to.</small>
+	</div>
+</script>
+
+<script type="text/html" data-help-name="ha-get-config">
+	<p>Fetches the configuration for a device via the selected Home Automation agent.</p>
+	<h3>Inputs</h3>
+	<dl class="message-properties">
+		<dt>msg</dt>
+		<dd>Any input message triggers a config read.</dd>
+	</dl>
+	<h3>Outputs</h3>
+	<dl class="message-properties">
+		<dt>payload</dt>
+		<dd>Configuration data returned by the agent.</dd>
+	</dl>
+</script>
