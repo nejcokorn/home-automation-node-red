@@ -22,7 +22,7 @@ module.exports = function(RED) {
 						},
 						body: JSON.stringify({
 							type: this.actionType,
-							delay: this.actionDelay
+							delay: this.actionDelay && !Number.isNaN(Number(this.actionDelay)) ? Number(this.actionDelay) : 0
 						})
 					}
 				);
