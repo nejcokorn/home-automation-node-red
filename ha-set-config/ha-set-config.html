@@ -119,4 +119,17 @@
 </script>
 
 <script type="text/html" data-help-name="ha-set-config">
+	<p>Sends input configuration and action definitions to a device via the Home Automation agent.</p>
+	<h3>Inputs</h3>
+	<dl class="message-properties">
+		<dt>msg</dt>
+		<dd>Payload should be an array of actions (for example, output from one or more <strong>ha-set-config-action</strong> nodes). Any input triggers the request.</dd>
+	</dl>
+	<h3>Outputs</h3>
+	<dl class="message-properties">
+		<dt>payload</dt>
+		<dd>Configuration response returned by the agent.</dd>
+	</dl>
+	<h3>Details</h3>
+	<p>Configure the target Device ID, input port index, debounce and double-click timing, and whether actions should execute instantly or on disconnect.</p>
 </script>
