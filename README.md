@@ -1,4 +1,4 @@
-# node-red-contrib-home-automation
+# home-automation-node-red
 
 Home Automation nodes for Node-RED that talk to the Home Automation Agent over HTTP.  
 This contrib is designed to be used with the [Home Automation Agent](https://github.com/nejcokorn/home-automation-agent)
