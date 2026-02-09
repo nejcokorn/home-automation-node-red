@@ -15,6 +15,22 @@ Install via the Node-RED palette manager or npm:
 npm install node-red-contrib-home-automation
 ```
 
+## New Release
+
+Create a tag (optional but recommended)
+```bash
+git tag v1.2.0
+git push origin v1.2.0
+```
+
+Publish new version to npm and node-red
+```bash
+# Login
+npm adduser
+# Publish
+npm publish --access public
+```
+
 ## Nodes
 
 - **ha-agent**: Configure the Home Automation Agent connection.
