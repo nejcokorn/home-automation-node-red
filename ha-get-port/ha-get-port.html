@@ -18,11 +18,26 @@
 			deviceId: {
 				required: true
 			},
+			deviceIdMetadata: {
+				default: {
+					type: "num"
+				}
+			},
 			direction: {
 				required: true
 			},
+			directionMetadata: {
+				default: {
+					type: "str"
+				}
+			},
 			port: {
 				required: true
+			},
+			portMetadata: {
+				default: {
+					type: "num"
+				}
 			}
 		},
 		inputs: 1,
@@ -30,6 +45,27 @@
 		outputLabels: ['port'],
 		icon: "font-awesome/fa-sign-in",
 		oneditprepare: function() {
+			$("#node-input-deviceId").typedInput({
+				default: "num",
+				types: ["num","msg","flow","global"],
+				typeField: "#node-input-deviceIdMetadata"
+			});
+			$("#node-input-direction").typedInput({
+				default: "direction",
+				types: [{
+					value: "direction",
+					options: [
+						{ value: "input", label: "input" },
+						{ value: "output", label: "output" }
+					]
+				},"msg","flow","global"],
+				typeField: "#node-input-directionMetadata"
+			});
+			$("#node-input-port").typedInput({
+				default: "num",
+				types: ["num","msg","flow","global"],
+				typeField: "#node-input-portMetadata"
+			});
 		},
 		label: function() {
 			return this.name;
@@ -55,23 +91,22 @@
 	</div>
 	<div class="form-row">
 		<label for="node-input-deviceId">Device ID</label>
-		<input type="number" min="0" max="239" id="node-input-deviceId">
+		<input id="node-input-deviceId">
+		<input type="hidden" id="node-input-deviceIdMetadata">
 		<br />
 		<small id="node-help-deviceId">Enter the target device to send this action to.</small>
 	</div>
 	<div class="form-row">
 		<label for="node-input-direction">Direction</label>
-		<select id="node-input-direction">
-			<option disabled value="">Choose...</option>
-			<option value="input">input</option>
-			<option value="output">output</option>
-		</select>
+		<input id="node-input-direction">
+		<input type="hidden" id="node-input-directionMetadata">
 		<br />
 		<small id="node-help-direction">Select the device port type.</small>
 	</div>
 	<div class="form-row">
 		<label for="node-input-port">Port</label>
-		<input type="number" min="0" max="239" id="node-input-port">
+		<input id="node-input-port">
+		<input type="hidden" id="node-input-portMetadata">
 		<br />
 		<small id="node-help-port">Enter the device port number; Output ports (0-11), Input ports (0-15).</small>
 	</div>

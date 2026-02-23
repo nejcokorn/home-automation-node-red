@@ -1,41 +1,46 @@
 module.exports = function(RED) {
 	function SetConfigAction(config) {
 		RED.nodes.createNode(this, config);
-		
-		this.actionTrigger = config.actionTrigger;
-		this.actionMode = config.actionMode;
-		this.actionType = config.actionType;
-		this.actionLongpress = config.actionLongpress;
-		this.actionConfigSwitch = config.actionConfigSwitch;
-
-		this.actionSkipWhenDelayDeviceId = config.actionSkipWhenDelayDeviceId;
-		this.actionSkipWhenDelayPorts = config.actionSkipWhenDelayPorts;
-
-		this.actionClearDelayDeviceId = config.actionClearDelayDeviceId;
-		this.actionClearDelayPorts = config.actionClearDelayPorts;
-
-		this.actionDeviceId = config.actionDeviceId;
-		this.actionPorts = config.actionPorts;
-		this.actionDelay = config.actionDelay;
 
 		this.on('input', async (msg, send, done) => {
 			if (!(msg.payload instanceof Array)) {
 				msg.payload = [];
 			}
+
+			const resolveValue = (value, meta, fallbackType) => {
+				const type = (meta && typeof meta === "object" && meta.type) ? meta.type : (typeof meta === "string" ? meta : fallbackType);
+				return RED.util.evaluateNodeProperty(value, type, this, msg);
+			};
+			const toNumber = (value, fallback) => Number.isFinite(Number(value)) ? Number(value) : (fallback !== undefined ? fallback : null);
+
+			const actionTrigger = resolveValue(config.actionTrigger, config.actionTriggerMetadata, "str");
+			const actionMode = resolveValue(config.actionMode, config.actionModeMetadata, "str");
+			const actionType = resolveValue(config.actionType, config.actionTypeMetadata, "str");
+			const actionLongpress = resolveValue(config.actionLongpress, config.actionLongpressMetadata, "num");
+			const actionConfigSwitch = resolveValue(config.actionConfigSwitch, config.actionConfigSwitchMetadata, "num");
+			const actionSkipWhenDelayDeviceId = resolveValue(config.actionSkipWhenDelayDeviceId, config.actionSkipWhenDelayDeviceIdMetadata, "num");
+			const actionClearDelayDeviceId = resolveValue(config.actionClearDelayDeviceId, config.actionClearDelayDeviceIdMetadata, "num");
+			const actionDeviceId = resolveValue(config.actionDeviceId, config.actionDeviceIdMetadata, "num");
+			const actionDelay = resolveValue(config.actionDelay, config.actionDelayMetadata, "num");
+
+			const actionSkipWhenDelayPorts = Array.isArray(config.actionSkipWhenDelayPorts) ? config.actionSkipWhenDelayPorts : [];
+			const actionClearDelayPorts = Array.isArray(config.actionClearDelayPorts) ? config.actionClearDelayPorts : [];
+			const actionPorts = Array.isArray(config.actionPorts) ? config.actionPorts : [];
+
 			msg.payload.push({
-				trigger: this.actionTrigger,
-				mode: this.actionMode,
-				type: this.actionType,
-				longpress: this.actionLongpress && !Number.isNaN(Number(this.actionLongpress)) ? Number(this.actionLongpress) : 0,
-				configSwitch: this.actionConfigSwitch && !Number.isNaN(Number(this.actionConfigSwitch)) ? Number(this.actionConfigSwitch) : 0,
+				trigger: actionTrigger,
+				mode: actionMode,
+				type: actionType,
+				longpress: toNumber(actionLongpress, 0),
+				configSwitch: toNumber(actionConfigSwitch, 0),
 				output: {
-					skipWhenDelayDeviceId: this.actionSkipWhenDelayDeviceId && !Number.isNaN(Number(this.actionSkipWhenDelayDeviceId)) ? Number(this.actionSkipWhenDelayDeviceId) : null,
-					skipWhenDelayPorts: this.actionSkipWhenDelayPorts ? this.actionSkipWhenDelayPorts : [],
-					clearDelayDeviceId: this.actionClearDelayDeviceId && !Number.isNaN(Number(this.actionClearDelayDeviceId)) ? Number(this.actionClearDelayDeviceId) : null,
-					clearDelayPorts: this.actionClearDelayPorts ? this.actionClearDelayPorts : [],
-					deviceId: this.actionDeviceId && !Number.isNaN(Number(this.actionDeviceId)) ? Number(this.actionDeviceId) : null,
-					ports: this.actionPorts ? this.actionPorts : [],
-					delay: this.actionDelay && !Number.isNaN(Number(this.actionDelay)) ? Number(this.actionDelay) : 0
+					skipWhenDelayDeviceId: toNumber(actionSkipWhenDelayDeviceId),
+					skipWhenDelayPorts: actionSkipWhenDelayPorts,
+					clearDelayDeviceId: toNumber(actionClearDelayDeviceId),
+					clearDelayPorts: actionClearDelayPorts,
+					deviceId: toNumber(actionDeviceId),
+					ports: actionPorts,
+					delay: toNumber(actionDelay, 0)
 				}
 			})
 			send(msg);

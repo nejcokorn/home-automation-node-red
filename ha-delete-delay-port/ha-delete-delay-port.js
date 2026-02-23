@@ -1,18 +1,23 @@
 module.exports = function(RED) {
 	function DeleteDelayByPort(config) {
 		RED.nodes.createNode(this, config);
-		this.agent = config.agent;
-		this.deviceId = config.deviceId;
-		this.actionPort = config.actionPort;
-		this.agentNode = RED.nodes.getNode(config.agent);
 
 		this.on('input', async (msg, send, done) => {
 			try {
-				if (!this.agentNode) {
+				const agentNode = RED.nodes.getNode(config.agent);
+				if (!agentNode) {
 					return done(Error("Configure Home Automation agent."));
 				}
-				
-				const response = await fetch(`${this.agentNode.url}/can/${this.agentNode.canbus}/device/${this.deviceId}/delay/port/${this.actionPort}`,
+
+				const resolveValue = (value, meta, fallbackType) => {
+					const type = (meta && typeof meta === "object" && meta.type) ? meta.type : (typeof meta === "string" ? meta : fallbackType);
+					return RED.util.evaluateNodeProperty(value, type, this, msg);
+				};
+
+				const deviceId = resolveValue(config.deviceId, config.deviceIdMetadata, "num");
+				const actionPort = resolveValue(config.actionPort, config.actionPortMetadata, "num");
+
+				const response = await fetch(`${agentNode.url}/can/${agentNode.canbus}/device/${deviceId}/delay/port/${actionPort}`,
 					{
 						method: "DELETE"
 					}

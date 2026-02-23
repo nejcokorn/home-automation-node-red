@@ -17,6 +17,11 @@
 			},
 			deviceId: {
 				required: true
+			},
+			deviceIdMetadata: {
+				default: {
+					type: "num"
+				}
 			}
 		},
 		inputs: 1,
@@ -24,6 +29,11 @@
 		outputLabels: ['port'],
 		icon: "font-awesome/fa-list-ul",
 		oneditprepare: function() {
+			$("#node-input-deviceId").typedInput({
+				default: "num",
+				types: ["num","msg","flow","global"],
+				typeField: "#node-input-deviceIdMetadata"
+			});
 		},
 		label: function() {
 			return this.name;
@@ -49,7 +59,8 @@
 	</div>
 	<div class="form-row">
 		<label for="node-input-deviceId">Device ID</label>
-		<input type="number" min="0" max="239" id="node-input-deviceId">
+		<input id="node-input-deviceId">
+		<input type="hidden" id="node-input-deviceIdMetadata">
 		<br />
 		<small id="node-help-deviceId">Enter the target device to send this action to.</small>
 	</div>

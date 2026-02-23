@@ -16,12 +16,20 @@
 				required: true
 			},
 			deviceId: {
-				validate: RED.validators.number(),
 				required: true
 			},
+			deviceIdMetadata: {
+				default: {
+					type: "num"
+				}
+			},
 			actionDelayId: {
-				validate: RED.validators.number(),
 				required: true
+			},
+			actionDelayIdMetadata: {
+				default: {
+					type: "num"
+				}
 			}
 		},
 		inputs: 1,
@@ -30,6 +38,16 @@
 		icon: "font-awesome/fa-trash",
 		align: 'right',
 		oneditprepare: function() {
+			$("#node-input-deviceId").typedInput({
+				default: "num",
+				types: ["num","msg","flow","global"],
+				typeField: "#node-input-deviceIdMetadata"
+			});
+			$("#node-input-actionDelayId").typedInput({
+				default: "num",
+				types: ["num","msg","flow","global"],
+				typeField: "#node-input-actionDelayIdMetadata"
+			});
 		},
 		label: function() {
 			return this.name;
@@ -55,14 +73,16 @@
 	</div>
 	<div class="form-row">
 		<label for="node-input-deviceId">Device ID</label>
-		<input type="number" min="0" max="239" step="1" id="node-input-deviceId">
+		<input id="node-input-deviceId">
+		<input type="hidden" id="node-input-deviceIdMetadata">
 		<br />
 		<small id="node-help-deviceId">Enter the target device to send this action to.</small>
 	</div>
 	<h3>Action</h3>
 	<div class="form-row">
 		<label for="node-input-actionDelayId">Delay ID</label>
-		<input type="number" min="0" id="node-input-actionDelayId">
+		<input id="node-input-actionDelayId">
+		<input type="hidden" id="node-input-actionDelayIdMetadata">
 		<br />
 		<small id="node-help-actionDelayId">Enter the delay identifier to clear.</small>
 	</div>

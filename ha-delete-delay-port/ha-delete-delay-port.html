@@ -16,12 +16,20 @@
 				required: true
 			},
 			deviceId: {
-				validate: RED.validators.number(),
 				required: true
 			},
+			deviceIdMetadata: {
+				default: {
+					type: "num"
+				}
+			},
 			actionPort: {
-				validate: RED.validators.number(),
 				required: true
+			},
+			actionPortMetadata: {
+				default: {
+					type: "num"
+				}
 			}
 		},
 		inputs: 1,
@@ -30,6 +38,16 @@
 		icon: "font-awesome/fa-trash",
 		align: 'right',
 		oneditprepare: function() {
+			$("#node-input-deviceId").typedInput({
+				default: "num",
+				types: ["num","msg","flow","global"],
+				typeField: "#node-input-deviceIdMetadata"
+			});
+			$("#node-input-actionPort").typedInput({
+				default: "num",
+				types: ["num","msg","flow","global"],
+				typeField: "#node-input-actionPortMetadata"
+			});
 		},
 		label: function() {
 			return this.name;
@@ -55,14 +73,16 @@
 	</div>
 	<div class="form-row">
 		<label for="node-input-deviceId">Device ID</label>
-		<input type="number" min="0" max="239" id="node-input-deviceId">
+		<input id="node-input-deviceId">
+		<input type="hidden" id="node-input-deviceIdMetadata">
 		<br />
 		<small id="node-help-deviceId">Enter the target device to send this action to.</small>
 	</div>
 	<h3>Action</h3>
 	<div class="form-row">
 		<label for="node-input-actionPort">Port</label>
-		<input type="number" min="0" max="15" id="node-input-actionPort">
+		<input id="node-input-actionPort">
+		<input type="hidden" id="node-input-actionPortMetadata">
 		<br />
 		<small id="node-help-actionPort">Enter the output port to clear delays for (0-15).</small>
 	</div>

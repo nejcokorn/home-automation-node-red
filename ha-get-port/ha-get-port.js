@@ -1,22 +1,31 @@
 module.exports = function(RED) {
 	function GetPort(config) {
 		RED.nodes.createNode(this, config);
-		this.deviceId = config.deviceId;
-		this.direction = config.direction;
-		this.port = config.port;
-		this.agent = config.agent;
-		this.agentNode = RED.nodes.getNode(config.agent);
 
 		this.on('input', async (msg, send, done) => {
 			try {
-				if (!this.agentNode) {
+				const agentNode = RED.nodes.getNode(config.agent);
+				if (!agentNode) {
 					return done(Error("Configure Home Automation agent."));
 				}
-				
-				const response = await fetch(`${this.agentNode.url}/can/${this.agentNode.canbus}/device/${this.deviceId}/digital/${this.direction}/${this.port}`);
+
+				const resolveValue = (value, meta, fallbackType) => {
+					const type = (meta && typeof meta === "object" && meta.type) ? meta.type : (typeof meta === "string" ? meta : fallbackType);
+					return RED.util.evaluateNodeProperty(value, type, this, msg);
+				};
+
+				const deviceId = resolveValue(config.deviceId, config.deviceIdMetadata, "num");
+				const direction = resolveValue(config.direction, config.directionMetadata, "str");
+				const port = resolveValue(config.port, config.portMetadata, "num");
+
+				const response = await fetch(`${agentNode.url}/can/${agentNode.canbus}/device/${deviceId}/digital/${direction}/${port}`);
 				const json = await response.json();
 
-				send({ payload: json.data });
+				if (json.success == true) {
+					send({ payload: json.data });
+				} else {
+					done(json.error);
+				}
 			} catch (error) {
 				done(error);
 			}

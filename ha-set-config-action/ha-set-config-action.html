@@ -14,22 +14,52 @@
 			actionTrigger: {
 				required: true,
 			},
+			actionTriggerMetadata: {
+				default: {
+					type: "trigger"
+				}
+			},
 			actionMode: {
 				required: true,
 			},
+			actionModeMetadata: {
+				default: {
+					type: "mode"
+				}
+			},
 			actionType: {
 				required: true,
+			},
+			actionTypeMetadata: {
+				default: {
+					type: "type"
+				}
 			},
 			actionLongpress: {
 				required: false,
 				value: ''
 			},
+			actionLongpressMetadata: {
+				default: {
+					type: "num"
+				}
+			},
 			actionConfigSwitch: {
 				required: false,
 				value: ''
 			},
+			actionConfigSwitchMetadata: {
+				default: {
+					type: "switch"
+				}
+			},
 			actionSkipWhenDelayDeviceId: {
 				value: ''
+			},
+			actionSkipWhenDelayDeviceIdMetadata: {
+				default: {
+					type: "num"
+				}
 			},
 			actionSkipWhenDelayPorts: {
 				value: []
@@ -37,17 +67,32 @@
 			actionClearDelayDeviceId: {
 				value: ''
 			},
+			actionClearDelayDeviceIdMetadata: {
+				default: {
+					type: "num"
+				}
+			},
 			actionClearDelayPorts: {
 				value: []
 			},
 			actionDeviceId: {
 				value: ''
 			},
+			actionDeviceIdMetadata: {
+				default: {
+					type: "num"
+				}
+			},
 			actionPorts: {
 				value: []
 			},
 			actionDelay: {
 				value: 0
+			},
+			actionDelayMetadata: {
+				default: {
+					type: "num"
+				}
 			},
 
 		},
@@ -57,7 +102,88 @@
 		icon: "font-awesome/fa-cog",
 		align: 'right',
 		oneditprepare: function() {
+			$("#node-input-actionTrigger").typedInput({
+				default: "trigger",
+				types: [{
+					value: "trigger",
+					options: [
+						{ value: "disabled", label: "disabled" },
+						{ value: "rising", label: "rising" },
+						{ value: "falling", label: "falling" }
+					]
+				},"msg","flow","global"],
+				typeField: "#node-input-actionTriggerMetadata"
+			});
+			$("#node-input-actionMode").typedInput({
+				default: "mode",
+				types: [{
+					value: "mode",
+					options: [
+						{ value: "click", label: "click" },
+						{ value: "doubleclick", label: "doubleclick" },
+						{ value: "longpress", label: "longpress" }
+					]
+				},"msg","flow","global"],
+				typeField: "#node-input-actionModeMetadata"
+			});
+			$("#node-input-actionType").typedInput({
+				default: "type",
+				types: [{
+					value: "type",
+					options: [
+						{ value: "toggle", label: "toggle" },
+						{ value: "high", label: "high" },
+						{ value: "low", label: "low" }
+					]
+				},"msg","flow","global"],
+				typeField: "#node-input-actionTypeMetadata"
+			});
+			$("#node-input-actionLongpress").typedInput({
+				default: "num",
+				types: ["num","msg","flow","global"],
+				typeField: "#node-input-actionLongpressMetadata"
+			});
+			$("#node-input-actionConfigSwitch").typedInput({
+				default: "switch",
+				types: [{
+					value: "switch",
+					options: [
+						{ value: "0", label: "Always active" },
+						{ value: "1", label: "Pin 1" },
+						{ value: "2", label: "Pin 2" },
+						{ value: "3", label: "Pin 3" },
+						{ value: "4", label: "Pin 4" }
+					]
+				},"msg","flow","global"],
+				typeField: "#node-input-actionConfigSwitchMetadata"
+			});
+			$("#node-input-actionSkipWhenDelayDeviceId").typedInput({
+				default: "num",
+				types: ["num","msg","flow","global"],
+				typeField: "#node-input-actionSkipWhenDelayDeviceIdMetadata"
+			});
+			$("#node-input-actionClearDelayDeviceId").typedInput({
+				default: "num",
+				types: ["num","msg","flow","global"],
+				typeField: "#node-input-actionClearDelayDeviceIdMetadata"
+			});
+			$("#node-input-actionDeviceId").typedInput({
+				default: "num",
+				types: ["num","msg","flow","global"],
+				typeField: "#node-input-actionDeviceIdMetadata"
+			});
+			$("#node-input-actionDelay").typedInput({
+				default: "num",
+				types: ["num","msg","flow","global"],
+				typeField: "#node-input-actionDelayMetadata"
+			});
+
 			let toggleActionLongpress = () => {
+				const modeType = $("#node-input-actionModeMetadata").val();
+				if (modeType && modeType !== "mode") {
+					$("#node-input-actionLongpress").prop("disabled", false);
+					return;
+				}
 				if ($("#node-input-actionMode").val() === "longpress") {
 					$("#node-input-actionLongpress").prop("disabled", false);
 				} else {
@@ -67,6 +193,7 @@
 			}
 			// Set listener
 			$("#node-input-actionMode").on("change", toggleActionLongpress);
+			$("#node-input-actionModeMetadata").on("change", toggleActionLongpress);
 			// initial state
 			toggleActionLongpress();
 
@@ -137,29 +264,22 @@
 	<h3>Trigger conditions</h3>
 	<div class="form-row">
 		<label for="node-input-actionTrigger">Trigger</label>
-		<select id="node-input-actionTrigger">
-			<option disabled value="">Select...</option>
-			<option value="disabled">Disabled</option>
-			<option value="rising">Rising edge</option>
-			<option value="falling">Falling edge</option>
-		</select>
+		<input id="node-input-actionTrigger">
+		<input type="hidden" id="node-input-actionTriggerMetadata">
 		<br />
 		<small id="node-help-actionTrigger">Select which signal edge triggers the action.</small>
 	</div>
 	<div class="form-row">
 		<label for="node-input-actionMode">Mode</label>
-		<select id="node-input-actionMode">
-			<option disabled value="">Select...</option>
-			<option value="click">Click</option>
-			<option value="doubleclick">Double Click</option>
-			<option value="longpress">Long press</option>
-		</select> 
+		<input id="node-input-actionMode">
+		<input type="hidden" id="node-input-actionModeMetadata"> 
 		<br />
 		<small id="node-help-actionMode">Select the interaction type required to trigger the action.</small>
 	</div>
 	<div class="form-row">
 		<label for="node-input-actionLongpress">Long press</label>
-		<input type="number" min="0" id="node-input-actionLongpress">
+		<input id="node-input-actionLongpress">
+		<input type="hidden" id="node-input-actionLongpressMetadata">
 		<br />
 		<small id="node-help-actionLongpress">Specifies how long the button must be held (in milliseconds) to trigger the action.</small>
 		<br />
@@ -167,14 +287,8 @@
 	</div>
 	<div class="form-row">
 		<label for="node-input-actionConfigSwitch">Config switch</label>
-		<select id="node-input-actionConfigSwitch">
-			<option disabled value="">Select...</option>
-			<option value="0">Always active</option>
-			<option value="1">Pin 1</option>
-			<option value="2">Pin 2</option>
-			<option value="3">Pin 3</option>
-			<option value="4">Pin 4</option>
-		</select>
+		<input id="node-input-actionConfigSwitch">
+		<input type="hidden" id="node-input-actionConfigSwitchMetadata">
 		<br />
 		<small id="node-help-actionConfigSwitch">Action will only execute when DIP Switch on the PCB matches pin selection.</small>
 	</div>
@@ -183,7 +297,8 @@
 	</p>
 	<div class="form-row">
 		<label for="node-input-actionSkipWhenDelayDeviceId">Device ID</label>
-		<input type="number" min="0" max="239" id="node-input-actionSkipWhenDelayDeviceId">
+		<input id="node-input-actionSkipWhenDelayDeviceId">
+		<input type="hidden" id="node-input-actionSkipWhenDelayDeviceIdMetadata">
 		<br />
 		<small id="node-help-actionSkipWhenDelayDeviceId">Device to check for active delays before executing this action.</small>
 	</div>
@@ -198,7 +313,8 @@
 	<h3>Clear delays</h3>
 	<div class="form-row">
 		<label for="node-input-actionClearDelayDeviceId">Device ID</label>
-		<input type="number" min="0" max="239" id="node-input-actionClearDelayDeviceId">
+		<input id="node-input-actionClearDelayDeviceId">
+		<input type="hidden" id="node-input-actionClearDelayDeviceIdMetadata">
 		<br />
 		<small id="node-help-actionClearDelayDeviceId">Device on which delays should be cleared before executing the action.</small>
 	</div>
@@ -213,18 +329,15 @@
 	<h3>Execute action</h3>
 	<div class="form-row">
 		<label for="node-input-actionDeviceId">Device ID</label>
-		<input type="number" min="0" max="239" id="node-input-actionDeviceId">
+		<input id="node-input-actionDeviceId">
+		<input type="hidden" id="node-input-actionDeviceIdMetadata">
 		<br />
 		<small id="node-help-actionDeviceId">Device on which actions should be executed.</small>
 	</div>
 	<div class="form-row">
 		<label for="node-input-actionType">Type</label>
-		<select id="node-input-actionType">
-			<option disabled value="">Select...</option>
-			<option value="toggle">Toggle</option>
-			<option value="high">High</option>
-			<option value="low">Low</option>
-		</select>
+		<input id="node-input-actionType">
+		<input type="hidden" id="node-input-actionTypeMetadata">
 		<br />
 		<small id="node-help-actionType">Set the output port state to <strong>low</strong>, <strong>high</strong>, or <strong>toggle</strong> (inverts the current state).</small>
 	</div>
@@ -237,7 +350,8 @@
 	</div>
 	<div class="form-row">
 		<label for="node-input-actionDelay">Delay</label>
-		<input type="number" min="0" id="node-input-actionDelay">
+		<input id="node-input-actionDelay">
+		<input type="hidden" id="node-input-actionDelayMetadata">
 		<br />
 		<small id="node-help-actionDelay">Delay before executing the action, in milliseconds. Set to 0 for no delay.</small>
 	</div>

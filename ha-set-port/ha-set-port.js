@@ -1,28 +1,34 @@
 module.exports = function(RED) {
 	function SetPort(config) {
 		RED.nodes.createNode(this, config);
-		this.agent = config.agent;
-		this.deviceId = config.deviceId;
-		this.actionType = config.actionType;
-		this.actionPort = config.actionPort;
-		this.actionDelay = config.actionDelay;
-		this.agentNode = RED.nodes.getNode(config.agent);
 
 		this.on('input', async (msg, send, done) => {
 			try {
-				if (!this.agentNode) {
+				const agentNode = RED.nodes.getNode(config.agent);
+				if (!agentNode) {
 					return done(Error("Configure Home Automation agent."));
 				}
-				
-				const response = await fetch(`${this.agentNode.url}/can/${this.agentNode.canbus}/device/${this.deviceId}/digital/output/${this.actionPort}`,
+				const resolveValue = (value, meta, fallbackType) => {
+					const type = (meta && typeof meta === "object" && meta.type) ? meta.type : (typeof meta === "string" ? meta : fallbackType);
+					return RED.util.evaluateNodeProperty(value, type, this, msg);
+				};
+
+				// Resolve values with support for dynamic types (msg, flow, global)
+				const deviceId = resolveValue(config.deviceId, config.deviceIdMetadata, "num");
+				const actionPort = resolveValue(config.actionPort, config.actionPortMetadata, "num");
+				const actionType = resolveValue(config.actionType, config.actionTypeMetadata, "str");
+				const actionDelay = resolveValue(config.actionDelay, config.actionDelayMetadata, "num");
+
+				// HTTP request to agent to set the port state
+				const response = await fetch(`${agentNode.url}/can/${agentNode.canbus}/device/${deviceId}/digital/output/${actionPort}`,
 					{
 						method: "POST",
 						headers: {
 							"Content-Type": "application/json"
 						},
 						body: JSON.stringify({
-							type: this.actionType,
-							delay: this.actionDelay && !Number.isNaN(Number(this.actionDelay)) ? Number(this.actionDelay) : 0
+							type: actionType,
+							delay: actionDelay
 						})
 					}
 				);
