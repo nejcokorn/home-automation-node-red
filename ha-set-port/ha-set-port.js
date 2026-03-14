@@ -13,7 +13,7 @@ module.exports = function(RED) {
 					return RED.util.evaluateNodeProperty(value, type, this, msg);
 				};
 
-				// Resolve values with support for dynamic types (msg, flow, global)
+				// Resolve values with support for dynamic typedInput values (msg, flow, global, env, jsonata)
 				const deviceId = resolveValue(config.deviceId, config.deviceIdMetadata, "num");
 				const actionPort = resolveValue(config.actionPort, config.actionPortMetadata, "num");
 				const actionType = resolveValue(config.actionType, config.actionTypeMetadata, "str");

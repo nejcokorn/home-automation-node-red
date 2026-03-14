@@ -70,22 +70,22 @@
 		oneditprepare: function() {
 			$("#node-input-deviceId").typedInput({
 				default: "num",
-				types: ["num","msg","flow","global"],
+				types: ["num","msg","flow","global","env","jsonata","re"],
 				typeField: "#node-input-deviceIdMetadata"
 			});
 			$("#node-input-inputPort").typedInput({
 				default: "num",
-				types: ["num","msg","flow","global"],
+				types: ["num","msg","flow","global","env","jsonata","re"],
 				typeField: "#node-input-inputPortMetadata"
 			});
 			$("#node-input-debounce").typedInput({
 				default: "num",
-				types: ["num","msg","flow","global"],
+				types: ["num","msg","flow","global","env","jsonata","re"],
 				typeField: "#node-input-debounceMetadata"
 			});
 			$("#node-input-doubleclick").typedInput({
 				default: "num",
-				types: ["num","msg","flow","global"],
+				types: ["num","msg","flow","global","env","jsonata","re"],
 				typeField: "#node-input-doubleclickMetadata"
 			});
 			$("#node-input-bypassInstantly").typedInput({
@@ -96,7 +96,7 @@
 						{ value: "1", label: "True" },
 						{ value: "0", label: "False" }
 					]
-				},"msg","flow","global"],
+				},"msg","flow","global","env","jsonata","re"],
 				typeField: "#node-input-bypassInstantlyMetadata"
 			});
 			$("#node-input-bypassOnDisconnect").typedInput({
@@ -107,7 +107,7 @@
 						{ value: "1", label: "True" },
 						{ value: "0", label: "False" }
 					]
-				},"msg","flow","global"],
+				},"msg","flow","global","env","jsonata","re"],
 				typeField: "#node-input-bypassOnDisconnectMetadata"
 			});
 		},

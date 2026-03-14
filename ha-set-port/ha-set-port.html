@@ -56,12 +56,12 @@
 		oneditprepare: function() {
 			$("#node-input-deviceId").typedInput({
 				default: "num",
-				types: ["num","msg","flow","global"],
+				types: ["num","msg","flow","global","env","jsonata","re"],
 				typeField: "#node-input-deviceIdMetadata"
 			});
 			$("#node-input-actionPort").typedInput({
 				default: "num",
-				types: ["num","msg","flow","global"],
+				types: ["num","msg","flow","global","env","jsonata","re"],
 				typeField: "#node-input-actionPortMetadata"
 			});
 			$("#node-input-actionType").typedInput({
@@ -73,12 +73,12 @@
 						{ value: "high", label: "high" },
 						{ value: "toggle", label: "toggle" }
 					]
-				},"msg","flow","global"],
+				},"msg","flow","global","env","jsonata","re"],
 				typeField: "#node-input-actionTypeMetadata"
 			});
 			$("#node-input-actionDelay").typedInput({
 				default: "num",
-				types: ["num","msg","flow","global"],
+				types: ["num","msg","flow","global","env","jsonata","re"],
 				typeField: "#node-input-actionDelayMetadata"
 			});
 		},
