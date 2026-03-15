@@ -19,8 +19,8 @@ npm install node-red-contrib-home-automation
 
 Create a tag (optional but recommended)
 ```bash
-git tag v1.2.1
-git push origin v1.2.1
+git tag v1.2.2
+git push origin v1.2.2
 ```
 
 Publish new version to npm and node-red
