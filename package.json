@@ -30,14 +30,14 @@
 			"ha-discover":          "./ha-discover/ha-discover.js",
 			"ha-get-port":          "./ha-get-port/ha-get-port.js",
 			"ha-set-port":          "./ha-set-port/ha-set-port.js",
+			"ha-device-event":      "./ha-device-event/ha-device-event.js",
 			"ha-list-delays":       "./ha-list-delays/ha-list-delays.js",
 			"ha-delete-delay-id":   "./ha-delete-delay-id/ha-delete-delay-id.js",
 			"ha-delete-delay-port": "./ha-delete-delay-port/ha-delete-delay-port.js",
 			"ha-set-config-action": "./ha-set-config-action/ha-set-config-action.js",
 			"ha-set-config":        "./ha-set-config/ha-set-config.js",
 			"ha-get-config":        "./ha-get-config/ha-get-config.js",
-			"ha-save-eeprom":       "./ha-save-eeprom/ha-save-eeprom.js",
-			"ha-device-event":      "./ha-device-event/ha-device-event.js"
+			"ha-save-eeprom":       "./ha-save-eeprom/ha-save-eeprom.js"
 		}
 	},
 	"license": "MIT",
