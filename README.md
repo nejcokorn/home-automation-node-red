@@ -45,6 +45,7 @@ npm publish --access public
 - **ha-set-config**: Send configuration (actions + input settings) to a device.
 - **ha-get-config**: Fetch a device configuration.
 - **ha-save-eeprom**: Save the current configuration to device EEPROM.
+- **ha-device-event**: Listen for MQTT input/output port change events from the agent.
 
 ## Basic usage
 

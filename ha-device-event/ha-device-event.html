@@ -1,0 +1,107 @@
+<script type="text/javascript">
+	RED.nodes.registerType('ha-device-event', {
+		category: 'home automation',
+		color: '#BF9075',
+				// #595336
+				// #D99B66
+				// #F2CEAE
+				// #BF9075
+				// #F2E0D5
+		defaults: {
+			name: {
+				value: ""
+			},
+			agent: {
+				type: "ha-agent",
+				required: true
+			},
+			deviceId: {
+				value: "",
+				required: true
+			},
+			listenInput: {
+				value: true
+			},
+			inputPort: {
+				value: ""
+			},
+			listenOutput: {
+				value: true
+			},
+			outputPort: {
+				value: ""
+			}
+		},
+		inputs: 0,
+		outputs: 1,
+		outputLabels: ['event'],
+		icon: "bridge.svg",
+		label: function() {
+			return this.name || "device event";
+		}
+	});
+</script>
+
+<script type="text/html" data-template-name="ha-device-event">
+	<div class="form-row">
+		<label for="node-input-name">
+			<i class="fa fa-tag"></i>
+			Name
+		</label>
+		<input type="text" id="node-input-name" class="offset-md-2">
+	</div>
+	<hr />
+	<h3>Home Automation Device</h3>
+	<div class="form-row">
+		<label for="node-input-agent">Agent</label>
+		<input type="text" id="node-input-agent">
+		<br />
+		<small id="node-help-agent">Select the Home Automation agent configuration to use for MQTT events.</small>
+	</div>
+	<div class="form-row">
+		<label for="node-input-deviceId">Device ID</label>
+		<input type="text" id="node-input-deviceId" placeholder="1">
+		<br />
+		<small id="node-help-deviceId">Enter the device ID to listen for.</small>
+	</div>
+	<h3>Events</h3>
+	<div class="form-row">
+		<label for="node-input-listenInput">Input events</label>
+		<input type="checkbox" id="node-input-listenInput" style="display:inline-block; width:auto; vertical-align:top;">
+		<br />
+		<small id="node-help-listenInput">Emit messages when an input port changes.</small>
+	</div>
+	<div class="form-row">
+		<label for="node-input-inputPort">Input port</label>
+		<input type="number" id="node-input-inputPort" placeholder="all">
+		<br />
+		<small id="node-help-inputPort">Leave empty to listen to all input ports.</small>
+	</div>
+	<div class="form-row">
+		<label for="node-input-listenOutput">Output events</label>
+		<input type="checkbox" id="node-input-listenOutput" style="display:inline-block; width:auto; vertical-align:top;">
+		<br />
+		<small id="node-help-listenOutput">Emit messages when an output port changes.</small>
+	</div>
+	<div class="form-row">
+		<label for="node-input-outputPort">Output port</label>
+		<input type="number" id="node-input-outputPort" placeholder="all">
+		<br />
+		<small id="node-help-outputPort">Leave empty to listen to all output ports.</small>
+	</div>
+</script>
+
+<script type="text/html" data-help-name="ha-device-event">
+	<p>Listens for device input and output change events published by the selected Home Automation agent over MQTT.</p>
+	<h3>Outputs</h3>
+	<dl class="message-properties">
+		<dt>payload</dt>
+		<dd>Parsed device event payload published by the agent.</dd>
+		<dt>topic</dt>
+		<dd>The MQTT topic that matched the event.</dd>
+		<dt>event</dt>
+		<dd>Parsed event metadata: iface, deviceId, direction, and port.</dd>
+	</dl>
+	<h3>Details</h3>
+	<p>The node subscribes to the selected agent CAN bus and filters events by device ID, input port, and output port.</p>
+</script>
