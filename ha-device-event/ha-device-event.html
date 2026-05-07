@@ -19,23 +19,55 @@
 				value: "",
 				required: true
 			},
-			listenInput: {
-				value: true
+			deviceIdMetadata: {
+				default: {
+					type: "num"
+				}
 			},
-			inputPort: {
-				value: ""
+			direction: {
+				required: true
 			},
-			listenOutput: {
-				value: true
+			directionMetadata: {
+				default: {
+					type: "str"
+				}
 			},
-			outputPort: {
-				value: ""
+			port: {
+				required: true
+			},
+			portMetadata: {
+				default: {
+					type: "num"
+				}
 			}
 		},
 		inputs: 0,
 		outputs: 1,
 		outputLabels: ['event'],
 		icon: "bridge.svg",
+		oneditprepare: function() {
+			$("#node-input-deviceId").typedInput({
+				default: "num",
+				types: ["num","flow","global","env","jsonata"],
+				typeField: "#node-input-deviceIdMetadata"
+			});
+			$("#node-input-direction").typedInput({
+				default: "direction",
+				types: [{
+					value: "direction",
+					options: [
+						{ value: "input", label: "input" },
+						{ value: "output", label: "output" }
+					]
+				},"flow","global","env","jsonata"],
+				typeField: "#node-input-directionMetadata"
+			});
+			$("#node-input-port").typedInput({
+				default: "num",
+				types: ["num","flow","global","env","jsonata"],
+				typeField: "#node-input-portMetadata"
+			});
+		},
 		label: function() {
 			return this.name || "device event";
 		}
@@ -60,34 +92,25 @@
 	</div>
 	<div class="form-row">
 		<label for="node-input-deviceId">Device ID</label>
-		<input type="text" id="node-input-deviceId" placeholder="1">
+		<input id="node-input-deviceId" placeholder="1">
+		<input type="hidden" id="node-input-deviceIdMetadata">
 		<br />
 		<small id="node-help-deviceId">Enter the device ID to listen for.</small>
 	</div>
 	<h3>Events</h3>
 	<div class="form-row">
-		<label for="node-input-listenInput">Input events</label>
-		<input type="checkbox" id="node-input-listenInput" style="display:inline-block; width:auto; vertical-align:top;">
+		<label for="node-input-direction">Direction</label>
+		<input id="node-input-direction">
+		<input type="hidden" id="node-input-directionMetadata">
 		<br />
-		<small id="node-help-listenInput">Emit messages when an input port changes.</small>
+		<small id="node-help-direction">Select the device port type.</small>
 	</div>
 	<div class="form-row">
-		<label for="node-input-inputPort">Input port</label>
-		<input type="number" id="node-input-inputPort" placeholder="all">
+		<label for="node-input-port">Port</label>
+		<input id="node-input-port">
+		<input type="hidden" id="node-input-portMetadata">
 		<br />
-		<small id="node-help-inputPort">Leave empty to listen to all input ports.</small>
-	</div>
-	<div class="form-row">
-		<label for="node-input-listenOutput">Output events</label>
-		<input type="checkbox" id="node-input-listenOutput" style="display:inline-block; width:auto; vertical-align:top;">
-		<br />
-		<small id="node-help-listenOutput">Emit messages when an output port changes.</small>
-	</div>
-	<div class="form-row">
-		<label for="node-input-outputPort">Output port</label>
-		<input type="number" id="node-input-outputPort" placeholder="all">
-		<br />
-		<small id="node-help-outputPort">Leave empty to listen to all output ports.</small>
+		<small id="node-help-port">Enter the device port number; Output ports (0-11), Input ports (0-15).</small>
 	</div>
 </script>
 
@@ -103,5 +126,5 @@
 		<dd>Parsed event metadata: iface, deviceId, direction, and port.</dd>
 	</dl>
 	<h3>Details</h3>
-	<p>The node subscribes to the selected agent CAN bus and filters events by device ID, input port, and output port.</p>
+	<p>The node subscribes to one specific event topic for the selected agent CAN bus, device ID, direction, and port.</p>
 </script>

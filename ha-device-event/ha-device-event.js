@@ -13,12 +13,36 @@ module.exports = function(RED) {
 		}
 
 		const mqttUrl = agentNode.mqttUrl || process.env.MQTT_URL || "mqtt://localhost:1883";
-		const deviceId = config.deviceId || "+";
-		const topic = `can/${agentNode.canbus}/device/${deviceId}/+/+`;
-		const inputPort = config.inputPort === undefined || config.inputPort === "" ? null : Number(config.inputPort);
-		const outputPort = config.outputPort === undefined || config.outputPort === "" ? null : Number(config.outputPort);
-		const listenInput = config.listenInput !== false;
-		const listenOutput = config.listenOutput !== false;
+
+		const resolveValue = (value, meta, fallbackType) => {
+			const type = (meta && typeof meta === "object" && meta.type) ? meta.type : (typeof meta === "string" ? meta : fallbackType);
+			return RED.util.evaluateNodeProperty(value, type, node, {});
+		};
+
+		let deviceId;
+		let direction;
+		let port;
+		try {
+			deviceId = resolveValue(config.deviceId, config.deviceIdMetadata, "num");
+			direction = resolveValue(config.direction, config.directionMetadata, "str");
+			port = resolveValue(config.port, config.portMetadata, "num");
+
+			if (deviceId === undefined || deviceId === null || deviceId === "") {
+				throw Error("Device ID is required.");
+			}
+			if (direction !== "input" && direction !== "output") {
+				throw Error("Direction must be input or output.");
+			}
+			if (port === undefined || port === null || port === "" || Number.isNaN(Number(port))) {
+				throw Error("Port must be a number.");
+			}
+		} catch (error) {
+			node.status({ fill: "red", shape: "ring", text: "invalid config" });
+			node.error(error);
+			return;
+		}
+
+		const topic = `can/${agentNode.canbus}/device/${deviceId}/${direction}/${Number(port)}`;
 
 		const options = {
 			clientId: `ha-device-event-${node.id}`,
@@ -51,16 +75,6 @@ module.exports = function(RED) {
 					direction: parts[4],
 					port: Number(parts[5])
 				};
-
-				if (event.direction === "input") {
-					if (!listenInput) return;
-					if (inputPort !== null && event.port !== inputPort) return;
-				} else if (event.direction === "output") {
-					if (!listenOutput) return;
-					if (outputPort !== null && event.port !== outputPort) return;
-				} else {
-					return;
-				}
 
 				const data = JSON.parse(payload.toString("utf8"));
 				node.send({
