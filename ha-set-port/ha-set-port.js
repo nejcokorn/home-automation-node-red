@@ -17,7 +17,7 @@ module.exports = function(RED) {
 				const deviceId = resolveValue(config.deviceId, config.deviceIdMetadata, "num");
 				const actionPort = resolveValue(config.actionPort, config.actionPortMetadata, "num");
 				const actionType = resolveValue(config.actionType, config.actionTypeMetadata, "str");
-				const actionDelay = resolveValue(config.actionDelay, config.actionDelayMetadata, "num");
+				const actionDelay = Math.round(resolveValue(config.actionDelay, config.actionDelayMetadata, "num"));
 
 				// HTTP request to agent to set the port state
 				const response = await fetch(`${agentNode.url}/can/${agentNode.canbus}/device/${deviceId}/digital/output/${actionPort}`,
