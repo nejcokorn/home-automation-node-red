@@ -22,10 +22,12 @@ module.exports = function(RED) {
 		let deviceId;
 		let direction;
 		let port;
+		let qos;
 		try {
 			deviceId = resolveValue(config.deviceId, config.deviceIdMetadata, "num");
 			direction = resolveValue(config.direction, config.directionMetadata, "str");
 			port = resolveValue(config.port, config.portMetadata, "num");
+			qos = Number(resolveValue(config.qos, config.qosMetadata, "num"));
 
 			if (deviceId === undefined || deviceId === null || deviceId === "") {
 				throw Error("Device ID is required.");
@@ -35,6 +37,9 @@ module.exports = function(RED) {
 			}
 			if (port === undefined || port === null || port === "" || Number.isNaN(Number(port))) {
 				throw Error("Port must be a number.");
+			}
+			if (![0, 1, 2].includes(qos)) {
+				throw Error("QoS must be 0, 1, or 2.");
 			}
 		} catch (error) {
 			node.status({ fill: "red", shape: "ring", text: "invalid config" });
@@ -56,7 +61,7 @@ module.exports = function(RED) {
 		node.client = mqtt.connect(mqttUrl, options);
 
 		node.client.on("connect", () => {
-			node.client.subscribe(topic, (error) => {
+			node.client.subscribe(topic, { qos }, (error) => {
 				if (error) {
 					node.status({ fill: "red", shape: "ring", text: "subscribe failed" });
 					node.error(error);

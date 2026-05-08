@@ -39,6 +39,15 @@
 				default: {
 					type: "num"
 				}
+			},
+			qos: {
+				value: "0",
+				required: true
+			},
+			qosMetadata: {
+				default: {
+					type: "num"
+				}
 			}
 		},
 		inputs: 0,
@@ -66,6 +75,18 @@
 				default: "num",
 				types: ["num","flow","global","env","jsonata"],
 				typeField: "#node-input-portMetadata"
+			});
+			$("#node-input-qos").typedInput({
+				default: "qos",
+				types: [{
+					value: "qos",
+					options: [
+						{ value: "0", label: "0 - at most once" },
+						{ value: "1", label: "1 - at least once" },
+						{ value: "2", label: "2 - exactly once" }
+					]
+				},"flow","global","env","jsonata"],
+				typeField: "#node-input-qosMetadata"
 			});
 		},
 		label: function() {
@@ -112,6 +133,13 @@
 		<br />
 		<small id="node-help-port">Enter the device port number; Output ports (0-11), Input ports (0-15).</small>
 	</div>
+	<div class="form-row">
+		<label for="node-input-qos">QoS</label>
+		<input id="node-input-qos">
+		<input type="hidden" id="node-input-qosMetadata">
+		<br />
+		<small id="node-help-qos">Select the MQTT subscription QoS.</small>
+	</div>
 </script>
 
 <script type="text/html" data-help-name="ha-device-event">
@@ -126,5 +154,5 @@
 		<dd>Parsed event metadata: iface, deviceId, direction, and port.</dd>
 	</dl>
 	<h3>Details</h3>
-	<p>The node subscribes to one specific event topic for the selected agent CAN bus, device ID, direction, and port.</p>
+	<p>The node subscribes to one specific event topic for the selected agent CAN bus, device ID, direction, and port with the configured MQTT QoS.</p>
 </script>
